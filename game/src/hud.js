@@ -87,7 +87,8 @@ export function drawTitleScreen(ctx, state) {
 
   ctx.fillStyle = palette.ember;
   ctx.font = '700 30px system-ui, sans-serif';
-  const blink = Math.floor(state.time * 2) % 2 === 0;
+  // Visible two thirds of each blink cycle, so the prompt reads at a glance.
+  const blink = Math.floor(state.time * 1.6) % 3 !== 2;
   if (blink) ctx.fillText('Press Enter to play', VIEW_WIDTH / 2, 560);
   ctx.textAlign = 'left';
 }

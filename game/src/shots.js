@@ -50,7 +50,11 @@ function simulateToFeatureMoment(state) {
     const feetY = k.y + CONFIG.knightHeight;
     const overGap = !groundAhead(state.world, k.x + 17, feetY + 4);
     if (!k.grounded && k.jumpsUsed === 2 && overGap && k.vy < 160) {
-      state.lavaX = Math.max(state.lavaX, k.x - 215);
+      // Frame the moment: knight mid-gap at screen x≈430, the lava wall a
+      // visible band on the left, pickup floaters cleared off the knight.
+      state.cameraX = Math.max(0, k.x - 430);
+      state.lavaX = Math.max(state.lavaX, k.x - 300);
+      state.floaters = [];
       return true;
     }
   }
@@ -66,8 +70,9 @@ function simulateToFeatureMoment(state) {
       k.vy = -260;
       k.grounded = false;
       k.jumpsUsed = 2;
-      state.lavaX = k.x - 205;
-      state.cameraX = Math.max(0, k.x - 480);
+      state.lavaX = k.x - 300;
+      state.cameraX = Math.max(0, k.x - 430);
+      state.floaters = [];
       state.embersCollected = Math.max(state.embersCollected, 4);
       state.distanceScore = k.x * CONFIG.distanceScorePerPixel;
       return true;
